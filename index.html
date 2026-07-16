@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="EPIC AI Trader Studio is a free browser demo for testing trading and video-making AI agents without API keys."
+    />
+    <title>EPIC AI Trader Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="site-header">
+      <nav class="nav" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="EPIC AI Trader Studio home">
+          <span class="brand-mark">E</span>
+          <span>
+            <strong>EPIC AI</strong>
+            <small>Trader Studio</small>
+          </span>
+        </a>
+        <div class="nav-links">
+          <a href="#agents">Agents</a>
+          <a href="#playground">Free demo</a>
+          <a href="#active-agent">Active agent</a>
+          <a href="#trading-desk">Trading desk</a>
+          <a href="#workflow">Workflow</a>
+        </div>
+        <a class="button ghost" href="#playground">Try free</a>
+      </nav>
+
+      <section id="top" class="hero section-shell">
+        <div class="hero-copy">
+          <span class="eyebrow">Free sandbox • No API key • Runs in your browser</span>
+          <h1>Build trading plans and video campaigns with AI-style agents.</h1>
+          <p>
+            EPIC AI Trader Studio gives you a zero-cost way to explore how autonomous agents can research a market idea,
+            design a paper-trade plan, and turn the same thesis into short-form video content.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#playground">Launch free agent</a>
+            <a class="button secondary" href="#agents">See what it can do</a>
+            <a class="button ghost" href="EPIC-AI-TRADER-go-live-package.zip" download>Download ZIP package</a>
+          </div>
+          <p class="fine-print">
+            Educational demo only. By default, it does not place real trades, connect to brokerages, or provide financial advice.
+          </p>
+        </div>
+        <div class="hero-card" aria-label="Agent activity preview">
+          <div class="terminal-top">
+            <span></span><span></span><span></span>
+            <strong>agent-run.log</strong>
+          </div>
+          <div class="terminal-body">
+            <p><b>TraderAgent</b> scanned trend, risk and sentiment inputs.</p>
+            <p><b>RiskAgent</b> limited exposure to a paper-trade position size.</p>
+            <p><b>VideoAgent</b> created a 45-second script + 6-shot storyboard.</p>
+            <p class="success">Free demo output ready ✓</p>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section id="agents" class="section-shell agents-grid" aria-labelledby="agents-title">
+        <div class="section-heading">
+          <span class="eyebrow">Two agent teams</span>
+          <h2 id="agents-title">From market idea to content plan</h2>
+          <p>
+            Use one agent for disciplined paper-trading research, another for video creation. Combine both to explain a
+            thesis, recap a trade journal, or create educational content.
+          </p>
+        </div>
+
+        <article class="feature-card accent-green">
+          <div class="icon" aria-hidden="true">↗</div>
+          <h3>Trading strategy agent</h3>
+          <p>
+            Generates a paper-trade brief with trend bias, risk level, entry checklist, stop guidance, take-profit zones,
+            and journaling prompts.
+          </p>
+          <ul>
+            <li>Risk-first position sizing reminders</li>
+            <li>Market-condition scorecard</li>
+            <li>Education-safe outputs and disclaimers</li>
+          </ul>
+        </article>
+
+        <article class="feature-card accent-purple">
+          <div class="icon" aria-hidden="true">▶</div>
+          <h3>Video maker agent</h3>
+          <p>
+            Converts your topic into a platform-ready script, storyboard, visual prompts, captions, title ideas, and a
+            creator production checklist.
+          </p>
+          <ul>
+            <li>TikTok, Reels, Shorts, YouTube, or webinar formats</li>
+            <li>Hook, scenes, voiceover, and CTA</li>
+            <li>AI image/video prompt pack</li>
+          </ul>
+        </article>
+
+        <article class="feature-card accent-blue">
+          <div class="icon" aria-hidden="true">⚡</div>
+          <h3>Free local sandbox</h3>
+          <p>
+            The playground below uses a lightweight rules engine in JavaScript, so anyone can test the agent workflow for
+            free before connecting real AI APIs later.
+          </p>
+          <ul>
+            <li>No sign-up and no keys required</li>
+            <li>Private: inputs stay in your browser</li>
+            <li>Exportable Markdown output</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="playground" class="section-shell playground" aria-labelledby="playground-title">
+        <div class="section-heading centered">
+          <span class="eyebrow">Free agent playground</span>
+          <h2 id="playground-title">Try the AI agent flow now</h2>
+          <p>
+            Pick an agent, add your goal, and generate a sample result. This demo is intentionally free and offline: it
+            simulates agent reasoning with transparent rules so you can see the workflow.
+          </p>
+        </div>
+
+        <div class="playground-layout">
+          <form id="agent-form" class="agent-panel" aria-describedby="demo-note">
+            <div class="field-group">
+              <label for="agentType">Choose an agent</label>
+              <select id="agentType" name="agentType">
+                <option value="trading">Trading strategy agent</option>
+                <option value="video">Video maker agent</option>
+                <option value="combo">Trading + video campaign agent</option>
+              </select>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="topic">Market, asset, or video topic</label>
+                <input
+                  id="topic"
+                  name="topic"
+                  type="text"
+                  value="Bitcoin breakout after CPI report"
+                  maxlength="90"
+                  required
+                />
+              </div>
+              <div class="field-group">
+                <label for="audience">Audience</label>
+                <input id="audience" name="audience" type="text" value="beginner traders" maxlength="70" required />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="risk">Risk style</label>
+                <select id="risk" name="risk">
+                  <option value="conservative">Conservative</option>
+                  <option value="balanced" selected>Balanced</option>
+                  <option value="aggressive">Aggressive</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="timeframe">Trading/content timeframe</label>
+                <select id="timeframe" name="timeframe">
+                  <option value="intraday">Intraday</option>
+                  <option value="swing" selected>Swing / 1-7 days</option>
+                  <option value="long-term">Long-term / 1+ months</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="platform">Video platform</label>
+                <select id="platform" name="platform">
+                  <option value="TikTok / Reels / Shorts" selected>TikTok / Reels / Shorts</option>
+                  <option value="YouTube explainer">YouTube explainer</option>
+                  <option value="Webinar / course lesson">Webinar / course lesson</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="tone">Tone</label>
+                <select id="tone" name="tone">
+                  <option value="clear and educational" selected>Clear and educational</option>
+                  <option value="high-energy">High-energy</option>
+                  <option value="premium and cinematic">Premium and cinematic</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="notes">Optional instructions</label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows="4"
+                maxlength="260"
+                placeholder="Example: avoid hype, focus on risk management, make it 45 seconds."
+              ></textarea>
+            </div>
+
+            <p id="demo-note" class="demo-note">
+              Free mode uses local logic for demonstration. To launch a production AI agent, replace the rules engine with
+              your preferred LLM/video API and keep the same UI.
+            </p>
+
+            <div class="form-actions">
+              <button class="button primary" type="submit">Generate free demo</button>
+              <button class="button secondary" type="button" id="randomizeBtn">Use sample idea</button>
+            </div>
+          </form>
+
+          <section class="output-panel" aria-live="polite" aria-labelledby="output-title">
+            <div class="output-header">
+              <div>
+                <span class="eyebrow">Agent output</span>
+                <h3 id="output-title">Ready when you are</h3>
+              </div>
+              <button class="button ghost small" type="button" id="copyBtn">Copy Markdown</button>
+            </div>
+            <div id="agent-output" class="agent-output empty-state">
+              <p>Fill in the form and click <strong>Generate free demo</strong> to see a sample trading/video agent run.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+
+      <section id="active-agent" class="section-shell active-agent" aria-labelledby="active-agent-title">
+        <div class="section-heading centered">
+          <span class="eyebrow">Active AI agent runner</span>
+          <h2 id="active-agent-title">Run a real agent loop safely</h2>
+          <p>
+            Use the free rules agent immediately, or connect Ollama for a free local LLM brain. The active agent can
+            research, prepare paper trades, create videos, and request live-trade approval without sending live orders by itself.
+          </p>
+        </div>
+
+        <div class="safety-banner" role="note">
+          <strong>Agent safety:</strong>
+          <span>
+            Active mode starts with research and paper trading. Live broker execution remains locked behind the backend,
+            risk engine, environment flags, and human confirmation.
+          </span>
+        </div>
+
+        <div class="active-agent-layout">
+          <form id="active-agent-form" class="agent-panel active-agent-panel" aria-describedby="active-agent-note">
+            <div class="panel-title-row">
+              <div>
+                <span class="eyebrow">Agent brain</span>
+                <h3>Configure the run</h3>
+              </div>
+              <span id="agent-status" class="status-pill warning">Checking agent…</span>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="aiProvider">AI provider</label>
+                <select id="aiProvider" name="provider">
+                  <option value="free-rules" selected>Free rules agent</option>
+                  <option value="ollama">Ollama local LLM</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="agentMode">Agent mode</label>
+                <select id="agentMode" name="mode">
+                  <option value="research" selected>Research only</option>
+                  <option value="paper_trade">Paper trade only</option>
+                  <option value="live_approval">Live trade requires approval</option>
+                  <option value="video">Video content creator</option>
+                  <option value="campaign">Trading + video campaign</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="activeIdea">Market idea or mission</label>
+              <textarea
+                id="activeIdea"
+                name="idea"
+                rows="3"
+                maxlength="320"
+                required
+              >Bitcoin breakout retest after CPI, create a safe paper-trade plan and short video angle</textarea>
+            </div>
+
+            <div class="field-row three-columns">
+              <div class="field-group">
+                <label for="activeSymbol">Symbol</label>
+                <input id="activeSymbol" name="symbol" type="text" value="BTCUSD" maxlength="16" required />
+              </div>
+              <div class="field-group">
+                <label for="activeAssetClass">Asset class</label>
+                <select id="activeAssetClass" name="assetClass">
+                  <option value="crypto" selected>Crypto</option>
+                  <option value="stocks">Stocks</option>
+                  <option value="forex">Forex</option>
+                  <option value="commodities">Commodities</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="activeDirection">Direction</label>
+                <select id="activeDirection" name="direction">
+                  <option value="auto" selected>Auto decide</option>
+                  <option value="long">Long / buy</option>
+                  <option value="short">Short / sell</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row three-columns">
+              <div class="field-group">
+                <label for="activeTimeframe">Timeframe</label>
+                <select id="activeTimeframe" name="timeframe">
+                  <option value="intraday">Intraday</option>
+                  <option value="swing" selected>Swing / 1-7 days</option>
+                  <option value="long-term">Long-term / 1+ months</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="activeRiskStyle">Risk style</label>
+                <select id="activeRiskStyle" name="riskStyle">
+                  <option value="conservative">Conservative</option>
+                  <option value="balanced" selected>Balanced</option>
+                  <option value="aggressive">Aggressive</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="activeBroker">Live broker target</label>
+                <select id="activeBroker" name="broker">
+                  <option value="alpaca">Alpaca</option>
+                  <option value="binance" selected>Binance</option>
+                  <option value="coinbase">Coinbase</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row four-columns">
+              <div class="field-group">
+                <label for="activeEstimatedPrice">Estimated price</label>
+                <input id="activeEstimatedPrice" name="estimatedPrice" type="number" value="65000" min="0" step="0.01" required />
+              </div>
+              <div class="field-group">
+                <label for="activeStopLoss">Stop loss</label>
+                <input id="activeStopLoss" name="stopLoss" type="number" value="63000" min="0" step="0.01" required />
+              </div>
+              <div class="field-group">
+                <label for="activeTakeProfit">Take profit</label>
+                <input id="activeTakeProfit" name="takeProfit" type="number" value="69000" min="0" step="0.01" required />
+              </div>
+              <div class="field-group">
+                <label for="activeQuantity">Quantity</label>
+                <input id="activeQuantity" name="quantity" type="number" value="0" min="0" step="0.0001" />
+              </div>
+            </div>
+
+            <div class="field-row three-columns">
+              <div class="field-group">
+                <label for="activeAccountSize">Account size</label>
+                <input id="activeAccountSize" name="accountSize" type="number" value="10000" min="1" step="100" />
+              </div>
+              <div class="field-group">
+                <label for="activeMaxRiskPercent">Max risk %</label>
+                <input id="activeMaxRiskPercent" name="maxRiskPercent" type="number" value="1" min="0.1" max="10" step="0.1" />
+              </div>
+              <div class="field-group">
+                <label for="activeMaxNotional">Max notional</label>
+                <input id="activeMaxNotional" name="maxNotional" type="number" value="7500" min="1" step="100" />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="activeAudience">Video audience</label>
+                <input id="activeAudience" name="audience" type="text" value="beginner traders" maxlength="70" />
+              </div>
+              <div class="field-group">
+                <label for="activePlatform">Video platform</label>
+                <select id="activePlatform" name="platform">
+                  <option value="TikTok / Reels / Shorts" selected>TikTok / Reels / Shorts</option>
+                  <option value="YouTube explainer">YouTube explainer</option>
+                  <option value="Webinar / course lesson">Webinar / course lesson</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="activeNotes">Extra instructions</label>
+              <textarea
+                id="activeNotes"
+                name="notes"
+                rows="3"
+                maxlength="260"
+                placeholder="Example: wait for confirmation, paper trade only, create a calm educational script."
+              ></textarea>
+            </div>
+
+            <div class="checkbox-grid">
+              <label class="check-card" for="autoExecutePaper">
+                <input id="autoExecutePaper" name="autoExecutePaper" type="checkbox" />
+                <span>Auto-execute safe paper trade</span>
+              </label>
+              <label class="check-card" for="activeRequireHumanApproval">
+                <input id="activeRequireHumanApproval" name="requireHumanApproval" type="checkbox" checked />
+                <span>Require human approval</span>
+              </label>
+            </div>
+
+            <p id="active-agent-note" class="demo-note">
+              Ollama is optional. If Ollama is not running locally, the app falls back to the free built-in rules agent.
+            </p>
+
+            <div class="form-actions">
+              <button class="button primary" type="submit">Run active AI agent</button>
+              <button class="button secondary" type="button" id="activeAgentSampleBtn">Load active sample</button>
+            </div>
+          </form>
+
+          <section class="output-panel active-agent-output-panel" aria-live="polite" aria-labelledby="active-agent-output-title">
+            <div class="output-header">
+              <div>
+                <span class="eyebrow">Agent run output</span>
+                <h3 id="active-agent-output-title">No active run yet</h3>
+              </div>
+              <button class="button ghost small" type="button" id="copyAgentJsonBtn">Copy JSON</button>
+            </div>
+            <div id="active-agent-output" class="agent-output empty-state">
+              <p>Choose a mode and click <strong>Run active AI agent</strong>. The backend will run the agent loop and apply risk checks.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="trading-desk" class="section-shell trading-desk" aria-labelledby="trading-desk-title">
+        <div class="section-heading centered">
+          <span class="eyebrow">Paper + live trading ready</span>
+          <h2 id="trading-desk-title">Safe trading desk with broker API structure</h2>
+          <p>
+            Test order previews and paper trades for free. Live trading is deliberately locked behind a backend broker
+            adapter, environment variables, risk checks, and human confirmation.
+          </p>
+        </div>
+
+        <div class="safety-banner" role="note">
+          <strong>Safety default:</strong>
+          <span>
+            This app starts in paper mode. Never paste broker keys into frontend code. Use the Node backend and environment
+            variables when you are ready to connect a real broker.
+          </span>
+        </div>
+
+        <div class="trade-layout">
+          <form id="trade-form" class="agent-panel trade-panel" aria-describedby="trade-note">
+            <div class="panel-title-row">
+              <div>
+                <span class="eyebrow">Order builder</span>
+                <h3>Preview before execution</h3>
+              </div>
+              <span id="api-status" class="status-pill warning">Checking API…</span>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="tradeMode">Trading mode</label>
+                <select id="tradeMode" name="tradeMode">
+                  <option value="paper" selected>Paper trading simulator</option>
+                  <option value="live">Live trading preview locked</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="broker">Broker / exchange</label>
+                <select id="broker" name="broker">
+                  <option value="paper-sim" selected>Paper Simulator</option>
+                  <option value="alpaca">Alpaca</option>
+                  <option value="binance">Binance</option>
+                  <option value="coinbase">Coinbase</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row three-columns">
+              <div class="field-group">
+                <label for="symbol">Symbol</label>
+                <input id="symbol" name="symbol" type="text" value="BTCUSD" maxlength="16" required />
+              </div>
+              <div class="field-group">
+                <label for="assetClass">Asset class</label>
+                <select id="assetClass" name="assetClass">
+                  <option value="crypto" selected>Crypto</option>
+                  <option value="stocks">Stocks</option>
+                  <option value="forex">Forex</option>
+                  <option value="commodities">Commodities</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="side">Side</label>
+                <select id="side" name="side">
+                  <option value="buy" selected>Buy / Long</option>
+                  <option value="sell">Sell / Short</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field-row three-columns">
+              <div class="field-group">
+                <label for="orderType">Order type</label>
+                <select id="orderType" name="orderType">
+                  <option value="market" selected>Market</option>
+                  <option value="limit">Limit</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="quantity">Quantity</label>
+                <input id="quantity" name="quantity" type="number" value="0.05" min="0" step="0.0001" required />
+              </div>
+              <div class="field-group">
+                <label for="entryPrice">Estimated / limit price</label>
+                <input id="entryPrice" name="entryPrice" type="number" value="65000" min="0" step="0.01" required />
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="stopLoss">Stop loss</label>
+                <input id="stopLoss" name="stopLoss" type="number" value="63000" min="0" step="0.01" />
+              </div>
+              <div class="field-group">
+                <label for="takeProfit">Take profit</label>
+                <input id="takeProfit" name="takeProfit" type="number" value="69000" min="0" step="0.01" />
+              </div>
+            </div>
+
+            <div class="risk-box">
+              <div class="panel-title-row compact">
+                <div>
+                  <span class="eyebrow">Risk engine</span>
+                  <h3>Guardrails</h3>
+                </div>
+              </div>
+              <div class="field-row two-two">
+                <div class="field-group">
+                  <label for="accountSize">Paper account size</label>
+                  <input id="accountSize" name="accountSize" type="number" value="10000" min="1" step="100" />
+                </div>
+                <div class="field-group">
+                  <label for="maxRiskPercent">Max risk per trade %</label>
+                  <input id="maxRiskPercent" name="maxRiskPercent" type="number" value="1" min="0" max="10" step="0.1" />
+                </div>
+                <div class="field-group">
+                  <label for="maxDailyLossPercent">Daily loss limit %</label>
+                  <input id="maxDailyLossPercent" name="maxDailyLossPercent" type="number" value="3" min="0" max="20" step="0.1" />
+                </div>
+                <div class="field-group">
+                  <label for="maxNotional">Max notional value</label>
+                  <input id="maxNotional" name="maxNotional" type="number" value="7500" min="1" step="100" />
+                </div>
+              </div>
+
+              <div class="checkbox-grid">
+                <label class="check-card" for="requireStopLoss">
+                  <input id="requireStopLoss" name="requireStopLoss" type="checkbox" checked />
+                  <span>Require stop-loss</span>
+                </label>
+                <label class="check-card" for="requireHumanApproval">
+                  <input id="requireHumanApproval" name="requireHumanApproval" type="checkbox" checked />
+                  <span>Require human approval</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="confirmation">Live confirmation phrase</label>
+              <input
+                id="confirmation"
+                name="confirmation"
+                type="text"
+                placeholder="Type CONFIRM LIVE TRADE only when backend live mode is configured"
+              />
+            </div>
+
+            <p id="trade-note" class="demo-note">
+              Paper orders can be simulated for free. Live orders need a backend adapter plus server-side credentials and
+              should start with broker sandbox mode before any real money is used.
+            </p>
+
+            <div class="form-actions">
+              <button class="button primary" type="submit">Preview order</button>
+              <button class="button secondary" type="button" id="executeOrderBtn" disabled>Execute paper trade</button>
+              <button class="button ghost" type="button" id="refreshTradesBtn">Refresh trades</button>
+            </div>
+          </form>
+
+          <section class="output-panel trade-output-panel" aria-live="polite" aria-labelledby="trade-output-title">
+            <div class="output-header">
+              <div>
+                <span class="eyebrow">Risk checked output</span>
+                <h3 id="trade-output-title">No order preview yet</h3>
+              </div>
+            </div>
+            <div id="trade-output" class="agent-output empty-state">
+              <p>Build an order and click <strong>Preview order</strong>. The risk engine blocks unsafe setups before execution.</p>
+            </div>
+            <div class="trade-history-wrap">
+              <div class="panel-title-row compact">
+                <div>
+                  <span class="eyebrow">Blotter</span>
+                  <h3>Recent paper trades</h3>
+                </div>
+              </div>
+              <div id="trade-history" class="trade-history empty-history">No paper trades yet.</div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="workflow" class="section-shell workflow" aria-labelledby="workflow-title">
+        <div class="section-heading centered">
+          <span class="eyebrow">Production roadmap</span>
+          <h2 id="workflow-title">How this becomes a full AI agent app</h2>
+        </div>
+        <div class="steps">
+          <article>
+            <span>01</span>
+            <h3>Connect data</h3>
+            <p>Add market feeds, news APIs, chart indicators, broker sandbox APIs, and a paper-trading database.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Plug in AI</h3>
+            <p>Swap the free rules engine for an LLM orchestrator with tool calling and memory.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Create video assets</h3>
+            <p>Send scripts and prompts to image, voice, caption, and video generation services.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Review safely</h3>
+            <p>Keep human approval, audit logs, risk controls, and a kill switch before publishing or trading.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer section-shell">
+      <div>
+        <strong>EPIC AI Trader Studio</strong>
+        <p>Free educational prototype for AI-assisted trading research and video planning.</p>
+      </div>
+      <div class="footer-links">
+        <a href="EPIC-AI-TRADER-go-live-package.zip" download>Download ZIP package ↓</a>
+        <a href="GO_LIVE_PAPER.md">Read go-live paper</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
