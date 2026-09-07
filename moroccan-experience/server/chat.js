@@ -237,7 +237,9 @@ function answerFor(message, slots) {
   }
 
   // --- prices --------------------------------------------------------------
-  if (/\b(price|cost|how much|budget|cheap|expensive|quote|rate|per person)\b/.test(t) || slots.budget) {
+  const soundsLikePricing =
+    slots.journey || (slots.nights && (slots.month || slots.travellers)) || (slots.audience && slots.travellers);
+  if (/\b(price|prices|pricing|cost|how much|budget|cheap|expensive|quote|rate|per person|pp)\b/.test(t) || slots.budget || soundsLikePricing) {
     const picks = slots.journey ? [journeys.find((j) => j.slug === slots.journey)].filter(Boolean) : recommend(slots);
     const lines = picks.map((j) => {
       const { q, travellers, nights } = quoteFor(j, slots);
