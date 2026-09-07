@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- moroccan-experience (Node storefront) ---
+node_modules/
+moroccan-experience/data/
+moroccan-experience/data-test-*/
+moroccan-experience/.env
+*.log
+npm-debug.log*
