@@ -99,21 +99,21 @@ function extractSlots(text, prev = {}) {
   const t = norm(text);
   const slots = { ...prev };
 
+  // nights first, so "group of 20 for 9 nights" cannot donate 9 to the party size
+  let m = t.match(/(\d{1,2})\s*(?:nights?|days?)/);
+  if (m) slots.nights = clampNum(+m[1], 3, 21);
+
   // travellers / group size
-  let m = t.match(/(\d{1,2})\s*(?:people|persons?|pax|travellers?|travellers?|guests?|of us|students|women|adults|seniors)/);
+  m = t.match(/(\d{1,2})\s*(?:people|persons?|pax|travellers?|guests?|of us|students|women|adults|seniors|children)/);
   if (m) slots.travellers = clampNum(+m[1], 1, 44);
-  m = t.match(/(?:group|party)(?:\s+of)?\s+(\d{1,2})/);
-  if (m) slots.travellers = clampNum(+m[1], 1, 44);
+  m = t.match(/(?:group|party|cohort)\s+of\s+(\d{1,2})(?!\s*(?:nights?|days?))/);
+  if (m && !slots.travellers) slots.travellers = clampNum(+m[1], 1, 44);
   const partyWord = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, twelve: 12, twenty: 20, thirty: 30 };
-  m = t.match(/(?:for|and|plus)\s+(one|two|three|four|five|six|seven|eight|nine|ten|twelve|twenty|thirty)\b|(?:the |just )?(?:us )?(two|three|four|five) of us\b|\b(solo|alone|just me|couple|the two of us)\b/);
+  m = t.match(/(?:for|and|plus)\s+(one|two|three|four|five|six|seven|eight|nine|ten|twelve|twenty|thirty)\b|(?:the |just )?(?:us )?(two|three|four|five) of us\b|\b(solo|alone|just me|couple|the two of us|us two|the three of us)\b/);
   if (m) {
     if (m[3]) slots.travellers = /solo|alone|just me/.test(m[3]) ? 1 : 2;
     else slots.travellers = partyWord[m[1] || m[2]] || null;
   }
-
-  // nights
-  m = t.match(/(\d{1,2})\s*(?:nights?|days?)/);
-  if (m) slots.nights = clampNum(+m[1], 3, 21);
 
   // month / season
   MONTHS.forEach((mo, i) => {
@@ -178,6 +178,14 @@ function link(label, href) {
 
 function recommend(slots) {
   let pool = journeys.slice();
+  // A party of ten or more is a group booking, whatever word they used.
+  if ((slots.travellers || 0) >= config.commercial.groupMinTravellers && !slots.journey) {
+    const groupy = pool.filter((j) => j.type === 'group');
+    const big = pool.filter((j) => j.type !== 'group' && (j.maxTravellers || 0) >= slots.travellers);
+    // Group departures answer the question best; large private/bespoke parties stay as alternates.
+    pool = [...groupy, ...big];
+    if (!pool.length) pool = groupy.length ? groupy : journeys.filter((j) => j.type === 'group');
+  }
   if (slots.audience) pool = pool.filter((j) => j.audience === slots.audience || j.type !== 'group');
   if (slots.audience && (slots.travellers || 0) >= 10) pool = journeys.filter((j) => j.audience === slots.audience && j.type === 'group');
   if (slots.feeling) pool = pool.filter((j) => j.feelings.includes(slots.feeling) || pool.length < 2);
